@@ -1,15 +1,19 @@
-import nltk
-from nltk.sentiment import SentimentIntensityAnalyzer
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
-# Sample sentence
-sentence = "I love sunny days but hate the rain."
+def chat_with_gpt2(prompt):
+    # Load pre-trained GPT-2 model and tokenizer
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    model = GPT2LMHeadModel.from_pretrained("gpt2")
 
-# Downloading VADER lexicon
-nltk.download('vader_lexicon')
+    # Encode the user input and generate a response
+    inputs = tokenizer.encode(prompt, return_tensors="pt")
+    outputs = model.generate(inputs, max_length=50, num_return_sequences=1)
 
-# Initializing Sentiment Intensity Analyzer
-sia = SentimentIntensityAnalyzer()
+    # Decode the response
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return response
 
-# Analyzing the sentiment
-sentiment = sia.polarity_scores(sentence)
-print("NLTK Sentiment Analysis:", sentiment)
+# Example interaction
+user_input = "Tell me a story about a lost treasure"
+response = chat_with_gpt2(user_input)
+print(response)
