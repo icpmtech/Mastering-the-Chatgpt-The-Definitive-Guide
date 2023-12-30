@@ -1,6 +1,23 @@
-#-------------------------------------------------------------------------------------------------------------
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
-#-------------------------------------------------------------------------------------------------------------
+from tensorflow.keras.preprocessing.text import Tokenizer
 
-print('Hello, remote world!')
+# Sample text data
+sentences = [
+    "ChatGPT is revolutionizing AI.",
+    "Natural Language Processing is fascinating.",
+    "Deep learning models are becoming more sophisticated."
+]
+
+# Initialize the tokenizer
+tokenizer = Tokenizer(num_words=100, oov_token="<OOV>")
+
+# Fit the tokenizer on the text data
+tokenizer.fit_on_texts(sentences)
+
+# Get the word index
+word_index = tokenizer.word_index
+
+# Tokenize the sentences
+sequences = tokenizer.texts_to_sequences(sentences)
+
+print("Word Index:", word_index)
+print("Sequences:", sequences)
